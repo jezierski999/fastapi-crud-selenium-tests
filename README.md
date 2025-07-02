@@ -87,10 +87,12 @@ Tests are located in the `tests/` directory and include:
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshots/site.png" width="40%">
-  <img src="screenshots/tests.png" width="60%">
+  <img src="screenshots/site.png" width="60%">
 </p>
 
+<p align="center">
+  <img src="screenshots/tests.png" width="60%">
+</p>
 ---
 
 ## 📄 License
