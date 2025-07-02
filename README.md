@@ -93,6 +93,7 @@ Tests are located in the `tests/` directory and include:
 <p align="center">
   <img src="screenshots/tests.png" width="60%">
 </p>
+
 ---
 
 ## 📄 License
