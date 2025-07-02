@@ -99,7 +99,3 @@ MIT License – use freely for learning or testing.
 ## 🙋 Author
 
 jezierski999@gmail.com
-
-```
-
-
