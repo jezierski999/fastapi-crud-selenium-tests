@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Users</title>
+
+  <!-- Basic styling for layout and spacing -->
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2em;
+    }
+
+    input,
+    button {
+      margin: 0.5em 0;
+      padding: 0.5em;
+    }
+
+    .user {
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>User List</h1>
+
+  <!-- Input fields for name and email, plus Add/Save button -->
+  <input type="text" id="username" placeholder="Name" />
+  <input type="email" id="email" placeholder="Email" />
+  <button id="submit-btn" onclick="submitForm()">Add</button>
+
+  <!-- Container for displaying the list of users -->
+  <div id="user-list"></div>
+
+  <script>
+    // Base URL of the FastAPI backend
+    const apiUrl = "http://127.0.0.1:8000";
+    let editingUserId = null; // Tracks whether we are editing or adding a user
+
+    // Fetches all users from the backend and displays them
+    async function fetchUsers() {
+      const res = await fetch(`${apiUrl}/users/`);
+      const users = await res.json();
+
+      const list = document.getElementById("user-list");
+      list.innerHTML = "";
+
+      // Create a new HTML block for each user
+      users.forEach(user => {
+        const div = document.createElement("div");
+        div.className = "user";
+        div.innerHTML = `
+          <strong>${user.name}</strong> (${user.email})
+          <button onclick="editUser(${user.id}, '${user.name}', '${user.email}')">Edit</button>
+          <button onclick="deleteUser(${user.id})">Delete</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    // Handles form submission (either add or update)
+    async function submitForm() {
+      const name = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+
+      const payload = JSON.stringify({ name, email });
+      const headers = { "Content-Type": "application/json" };
+
+      if (editingUserId) {
+        // Update existing user
+        await fetch(`${apiUrl}/users/${editingUserId}`, {
+          method: "PUT",
+          headers,
+          body: payload
+        });
+      } else {
+        // Create new user
+        await fetch(`${apiUrl}/users/`, {
+          method: "POST",
+          headers,
+          body: payload
+        });
+      }
+
+      clearForm();   // Reset form fields
+      fetchUsers();  // Refresh user list
+    }
+
+    // Populates the form with existing user data for editing
+    function editUser(id, name, email) {
+      document.getElementById("username").value = name;
+      document.getElementById("email").value = email;
+      document.getElementById("submit-btn").textContent = "Save";
+      editingUserId = id;
+    }
+
+    // Clears the form and resets state
+    function clearForm() {
+      document.getElementById("username").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("submit-btn").textContent = "Add";
+      editingUserId = null;
+    }
+
+    // Deletes a user by ID
+    async function deleteUser(id) {
+      await fetch(`${apiUrl}/users/${id}`, { method: "DELETE" });
+      fetchUsers();
+    }
+
+    // Initial load of users on page load
+    fetchUsers();
+  </script>
+
+</body>
+
+</html>
