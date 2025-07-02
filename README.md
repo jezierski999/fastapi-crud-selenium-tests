@@ -86,7 +86,10 @@ Tests are located in the `tests/` directory and include:
 
 ## 📸 Screenshots
 
-*You can add screenshots here to showcase the UI.*
+<p align="center">
+  <img src="screenshots/site.png" width="50%">
+  <img src="screenshots/tests.png" width="50%">
+</p>
 
 ---
 
