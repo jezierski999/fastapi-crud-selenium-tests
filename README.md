@@ -88,7 +88,7 @@ Tests are located in the `tests/` directory and include:
 
 <p align="center">
   <img src="screenshots/site.png" width="40%">
-  <img src="screenshots/tests.png" width="40%">
+  <img src="screenshots/tests.png" width="50%">
 </p>
 
 ---
